@@ -29,7 +29,6 @@ body.light-mode .adm{background:#fff;border-color:#88b8d8}
 body.light-mode .ai,.light-mode .fi{background:#c8e4f5;border-color:#60a0cc;color:#0c1824}
 body.light-mode .itm-row,.light-mode .iform,.light-mode .save-bar{background:#c8e4f5;border-color:#88b8d8}
 body.light-mode .toggle-row{background:#c8e4f5;border-color:#88b8d8;color:#0c1824}
-body.light-mode .cat-chip{background:#c8e4f5;border-color:#60a0cc;color:#0c1824}
 body.light-mode .col-divider{background:#88b8d8}
 body.colorblind{--accent:#e8c800;--accent2:#60e0a0;--muted:#80c8f8;--danger:#e8c800}
 body.colorblind .a-tag{background:#1a1600;border-color:#e8c800;color:#e8c800}
@@ -81,7 +80,6 @@ header{text-align:center;padding:2rem 1rem 1.5rem;border-bottom:1px solid var(--
 .item-name{font-size:1rem;font-weight:500;color:var(--text);line-height:1.2}
 .item-price{font-family:var(--fd);font-size:.95rem;font-weight:700;color:var(--accent);margin-top:.1rem}
 .item-desc{font-size:.78rem;color:var(--muted);margin-top:.12rem;line-height:1.4}
-.item-allergens{margin-top:.3rem;display:flex;flex-wrap:wrap;gap:.2rem}
 .item-technique{font-size:.72rem;color:var(--muted);margin-top:.18rem;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
 .a-tag{background:#1a1600;border:1px solid var(--danger);color:var(--danger);font-size:.65rem;padding:.07rem .38rem;border-radius:4px;letter-spacing:.04em;text-transform:uppercase}
 .item-nonalc{padding-left:1rem;border-left:2px solid var(--border);margin-left:.3rem;margin-top:.3rem}
@@ -116,6 +114,8 @@ footer{text-align:center;font-size:.74rem;color:var(--muted);padding:1.5rem 1rem
 #pw-box p{font-size:.8rem;color:var(--muted);margin:0}
 #pw-inp{width:100%;background:var(--surf2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:.5rem .75rem;font-family:var(--fb);font-size:.95rem;outline:none}
 #pw-inp:focus{border-color:var(--accent)}
+#pw-token{width:100%;background:var(--surf2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:.5rem .75rem;font-family:var(--fb);font-size:.95rem;outline:none}
+#pw-token:focus{border-color:var(--accent)}
 #pw-err{font-size:.78rem;color:var(--danger);display:none;margin:0}
 #pw-actions{display:flex;gap:.5rem;justify-content:flex-end}
 #admin-panel{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;overflow-y:auto;padding:1rem}
@@ -165,7 +165,7 @@ hr.dv{border:none;border-top:1px solid var(--border);margin:1.25rem 0}
 .logo-preview-sm{width:48px;height:48px;background:var(--surf2);border:1px dashed var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--muted);cursor:pointer;flex-shrink:0;overflow:hidden;text-align:center;line-height:1.3}
 .logo-preview-sm img{width:100%;height:100%;object-fit:contain}
 .emoji-picker-wrap{position:relative;display:inline-flex;align-items:center;gap:.2rem}
-.emoji-dropdown{position:absolute;top:100%;left:0;z-index:300;background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:.4rem;display:flex;flex-wrap:wrap;gap:.2rem;width:240px;max-height:200px;overflow-y:auto;box-shadow:0 4px 16px rgba(0,0,0,.5)}
+.emoji-dropdown{position:absolute;top:100%;left:0;z-index:400;background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:.4rem;display:flex;flex-wrap:wrap;gap:.2rem;width:240px;max-height:200px;overflow-y:auto;box-shadow:0 4px 16px rgba(0,0,0,.5)}
 .emoji-opt{font-size:1.3rem;padding:.15rem .2rem;border-radius:4px;cursor:pointer;line-height:1;border:1px solid transparent;background:none}
 .emoji-opt:hover{background:var(--surf);border-color:var(--border)}
 .save-bar{background:var(--surf2);border-top:1px solid var(--border);padding:.9rem 1.5rem;margin:1.25rem -1.5rem -1.5rem;border-radius:0 0 16px 16px;display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap}
@@ -174,7 +174,7 @@ hr.dv{border:none;border-top:1px solid var(--border);margin:1.25rem 0}
 .bp:hover{opacity:.85}
 .bg{background:none;border:1px solid #555;color:var(--muted);border-radius:8px;padding:.55rem 1rem;font-size:.88rem;cursor:pointer;font-family:var(--fb)}
 @media(max-width:480px){.fr{grid-template-columns:1fr}.adm{padding:1rem}.save-bar{margin:1rem -1rem -1rem;padding:.7rem 1rem}}
-@media print{.a11y-bar,nav,#admin-btn,#admin-panel{display:none!important}body{background:white;color:black}}
+@media print{.a11y-bar,nav,#admin-btn,#admin-panel,#pw-panel{display:none!important}body{background:white;color:black}}
 </style>
 </head>
 <body>
@@ -213,7 +213,12 @@ hr.dv{border:none;border-top:1px solid var(--border);margin:1.25rem 0}
   <main tabindex="-1"><div id="about-container"></div></main>
   <footer role="contentinfo"><p style="opacity:.4;font-size:.68rem">Los Monos Sociales &middot; cocktail bar itinerante &middot; Firenze</p></footer>
 </div>
+
+<!-- Dati embedded da GitHub save: NON modificare manualmente -->
+<script id="lms-data" type="application/json"></script>
+
 <button id="admin-btn" onclick="openAdmin()" aria-haspopup="dialog" aria-expanded="false">✏️ Modifica</button>
+
 <div id="pw-panel" role="dialog" aria-modal="true" aria-labelledby="pw-title">
   <div id="pw-box">
     <h2 id="pw-title">Accesso admin</h2>
@@ -228,9 +233,16 @@ hr.dv{border:none;border-top:1px solid var(--border);margin:1.25rem 0}
     </div>
   </div>
 </div>
+
 <div id="admin-panel" role="dialog" aria-modal="true" aria-labelledby="adm-title">
 <div class="adm">
-<div class="adm-hd"><h2 id="adm-title">Gestione Menu</h2><div style="display:flex;gap:.4rem"><button class="close-btn" onclick="logout();closeAdmin()" title="Esci e blocca" style="border-color:#666;color:var(--muted)">🔒 Esci</button><button class="close-btn" onclick="closeAdmin()">✕ Chiudi</button></div></div>
+<div class="adm-hd">
+  <h2 id="adm-title">Gestione Menu</h2>
+  <div style="display:flex;gap:.4rem">
+    <button class="close-btn" onclick="logout()" title="Esci e blocca" style="border-color:#666;color:var(--muted)">🔒 Esci</button>
+    <button class="close-btn" onclick="closeAdmin()">✕ Chiudi</button>
+  </div>
+</div>
 
 <span class="section-label">① Intestazione</span>
 <div class="logo-upload-row">
@@ -320,8 +332,8 @@ hr.dv{border:none;border-top:1px solid var(--border);margin:1.25rem 0}
 </div>
 
 <script>
-// ── EMOJI PICKER ────────────────────────────────────────────────────
-const EMOJIS = ['🍹','🍸','🥂','🥃','🍺','🧉','☕','🍵','🥤','🧃','🍾','🍷','🫗','🍋','🍊','🫐','🍓','🍉','🍇','🥭','🍍','🥝','🥙','🌮','🌯','🫔','🥟','🍕','🍔','🍟','🍛','🥠','🥘','🫕','🍲','🥚','🧆','🍤','🥪','🥗','🧀','🥩','🍞','🫑','🍅','🥦','🥕','🫛','🍰','🍫','🫙','🌾','🌱','🌿','🌶️','🧄','🫒','🐵','🐒','🎪','⭐','🌸'];
+// ── EMOJI PICKER ─────────────────────────────────────────────────────
+var EMOJIS = ['🍹','🍸','🥂','🥃','🍺','🧉','☕','🍵','🥤','🧃','🍾','🍷','🫗','🍋','🍊','🫐','🍓','🍉','🍇','🥭','🍍','🥝','🥙','🌮','🌯','🫔','🥟','🍕','🍔','🍟','🍛','🥠','🥘','🫕','🍲','🥚','🧆','🍤','🥪','🥗','🧀','🥩','🍞','🫑','🍅','🥦','🥕','🫛','🍰','🍫','🫙','🌾','🌱','🌿','🌶️','🧄','🫒','🐵','🐒','🎪','⭐','🌸'];
 
 function openEmojiPicker(inputId, btn) {
   document.querySelectorAll('.emoji-dropdown').forEach(function(d){ d.remove(); });
@@ -355,123 +367,106 @@ function openEmojiPicker(inputId, btn) {
   }, 0);
 }
 
-// ── STATE ────────────────────────────────────────────────────────────
-let D = {
-  logo: null, logoAlt: "",
-  collabLogo: null, collabLogoAlt: "",
-  barDesc: "Cocktail bar itinerante · Firenze",
-  event: { name:"", address:"", date:"", note:"" },
+// ── STATO DEFAULT ────────────────────────────────────────────────────
+var D = {
+  logo: null, logoAlt: '',
+  collabLogo: null, collabLogoAlt: '',
+  barDesc: 'Cocktail bar itinerante \u00b7 Firenze',
+  event: { name:'', address:'', date:'', note:'' },
   legend: {
-    cocktail: "🍸", labelCocktail: "Cocktail alcolico",
-    analcolico: "🍋", labelAnalcolico: "Drink analcolico",
-    food: "🥙", labelFood: "Tapas / food",
-    labelAllergen: "Allergene",
-    allergenNote: "allergene presente — per allergie gravi parla sempre con noi",
-    footerNote: "🍃 Ingredienti stagionali · allergeni indicati su ogni voce",
-    footerNote2: "Per allergie gravi parla direttamente con noi 🤝"
+    cocktail: '🍸', labelCocktail: 'Cocktail alcolico',
+    analcolico: '🍋', labelAnalcolico: 'Drink analcolico',
+    food: '🥙', labelFood: 'Tapas / food',
+    labelAllergen: 'Allergene',
+    allergenNote: 'allergene presente \u2014 per allergie gravi parla sempre con noi',
+    footerNote: '🍃 Ingredienti stagionali \u00b7 allergeni indicati su ogni voce',
+    footerNote2: 'Per allergie gravi parla direttamente con noi 🤝'
   },
   hidden: [],
-  categories: ["Cocktail","Food"],
+  categories: ['Cocktail','Food'],
   items: [
-    {id:1,name:"Negroni",desc:"Gin, Campari, vermouth rosso",price:"8€",type:"cocktail",allergens:["solfiti"],pairedWith:4,nonAlcOf:null,arasaac:null,technique:""},
-    {id:2,name:"Spritz di stagione",desc:"Aperol, prosecco, acqua tonica",price:"7€",type:"cocktail",allergens:["solfiti","glutine"],pairedWith:null,nonAlcOf:null,arasaac:null,technique:""},
-    {id:3,name:"Limonata al rosmarino",desc:"Limone, rosmarino, zucchero di canna",price:"5€",type:"analcolico",allergens:[],pairedWith:null,nonAlcOf:1,arasaac:null,technique:""},
-    {id:4,name:"Tagliere misto",desc:"Salumi, formaggi, miele e noci",price:"12€",type:"food",allergens:["latte","frutta a guscio"],pairedWith:1,nonAlcOf:null,arasaac:null}
+    {id:1,name:'Negroni',desc:'Gin, Campari, vermouth rosso',price:'8\u20ac',type:'cocktail',allergens:['solfiti'],pairedWith:4,nonAlcOf:null,arasaac:null,technique:''},
+    {id:2,name:'Spritz di stagione',desc:'Aperol, prosecco, acqua tonica',price:'7\u20ac',type:'cocktail',allergens:['solfiti','glutine'],pairedWith:null,nonAlcOf:null,arasaac:null,technique:''},
+    {id:3,name:'Limonata al rosmarino',desc:'Limone, rosmarino, zucchero di canna',price:'5\u20ac',type:'analcolico',allergens:[],pairedWith:null,nonAlcOf:1,arasaac:null,technique:''},
+    {id:4,name:'Tagliere misto',desc:'Salumi, formaggi, miele e noci',price:'12\u20ac',type:'food',allergens:['latte','frutta a guscio'],pairedWith:1,nonAlcOf:null,arasaac:null,technique:null}
   ],
   arasaacActive: false,
   about: {
-    tagline: "Cocktail bar itinerante che guarda al buon bere con un approccio inclusivo e accessibile",
-    body: "Los Monos Sociales nasce dal desiderio di riscoprire il piacere di stare insieme. I cocktail non sono il fine, ma il mezzo — un linguaggio condiviso, un invito alla connessione, un pretesto per fermarsi e incontrarsi davvero.\n\nOgni evento è diverso, ogni luogo è una scoperta. Il bancone si sposta, ma l'intenzione rimane la stessa: creare uno spazio dove chiunque si senta benvenuto, a proprio agio, libero di esserci.\n\nLa qualità degli ingredienti e la sostenibilità guidano ogni scelta. Il consumo consapevole — non l'abuso — è il cuore di questo progetto. Un buon drink fatto bene vale molto di più di tanti fatti male.",
+    tagline: 'Cocktail bar itinerante che guarda al buon bere con un approccio inclusivo e accessibile',
+    body: 'Los Monos Sociales nasce dal desiderio di riscoprire il piacere di stare insieme. I cocktail non sono il fine, ma il mezzo \u2014 un linguaggio condiviso, un invito alla connessione, un pretesto per fermarsi e incontrarsi davvero.\n\nOgni evento \u00e8 diverso, ogni luogo \u00e8 una scoperta. Il bancone si sposta, ma l\u2019intenzione rimane la stessa: creare uno spazio dove chiunque si senta benvenuto, a proprio agio, libero di esserci.\n\nLa qualit\u00e0 degli ingredienti e la sostenibilit\u00e0 guidano ogni scelta. Il consumo consapevole \u2014 non l\u2019abuso \u2014 \u00e8 il cuore di questo progetto. Un buon drink fatto bene vale molto di pi\u00f9 di tanti fatti male.',
     values: [
-      {icon:"♿",title:"Accessibilità",text:"Menu in più formati, spazi attenti, accoglienza formata. Ogni persona merita di poter partecipare."},
-      {icon:"🌿",title:"Sostenibilità",text:"Ingredienti stagionali e locali, scelte consapevoli, rispetto per chi produce e per chi consuma."},
-      {icon:"🤝",title:"Inclusione",text:"Assorbenti gratuiti, formazione su disabilità visive, percorso verso i Punti Viola. Perché nessuno resta fuori."},
-      {icon:"🍸",title:"Qualità",text:"Pochi cocktail, fatti benissimo. Analcolici elaborati come i cocktail, perché il piacere non dipende dall'alcol."}
+      {icon:'♿',title:'Accessibilit\u00e0',text:'Menu in pi\u00f9 formati, spazi attenti, accoglienza formata. Ogni persona merita di poter partecipare.'},
+      {icon:'🌿',title:'Sostenibilit\u00e0',text:'Ingredienti stagionali e locali, scelte consapevoli, rispetto per chi produce e per chi consuma.'},
+      {icon:'🤝',title:'Inclusione',text:'Assorbenti gratuiti, formazione su disabilit\u00e0 visive, percorso verso i Punti Viola. Perch\u00e9 nessuno resta fuori.'},
+      {icon:'🍸',title:'Qualit\u00e0',text:'Pochi cocktail, fatti benissimo. Analcolici elaborati come i cocktail, perch\u00e9 il piacere non dipende dall\u2019alcol.'}
     ],
-    collabTitle: "Le collaborazioni attive",
+    collabTitle: 'Le collaborazioni attive',
     collabs: [
-      {text:"Formazione con l'Istituto dei Ciechi di Firenze per l'accoglienza di clienti ipovedenti e non vedenti",logo:null,logoAlt:"Logo Istituto dei Ciechi di Firenze"},
-      {text:"In percorso per diventare Punto Viola (DonneXStrada)",logo:null,logoAlt:"Logo Punto Viola DonneXStrada"},
-      {text:"Assorbenti gratuiti disponibili a ogni evento",logo:null,logoAlt:""}
+      {text:'Formazione con l\u2019Istituto dei Ciechi di Firenze per l\u2019accoglienza di clienti ipovedenti e non vedenti',logo:null,logoAlt:'Logo Istituto dei Ciechi di Firenze'},
+      {text:'In percorso per diventare Punto Viola (DonneXStrada)',logo:null,logoAlt:'Logo Punto Viola DonneXStrada'},
+      {text:'Assorbenti gratuiti disponibili a ogni evento',logo:null,logoAlt:''}
     ]
   }
 };
-let editingId = null;
-let currentType = "cocktail";
+
+var editingId = null;
+var currentType = 'cocktail';
+
+// ── MERGE: sovrascrive D con dati salvati, preservando campi mancanti ─
+function mergeData(saved) {
+  if (!saved || typeof saved !== 'object') return;
+  if (saved.logo)        D.logo        = saved.logo;
+  if (saved.logoAlt)     D.logoAlt     = saved.logoAlt;
+  if (saved.collabLogo)  D.collabLogo  = saved.collabLogo;
+  if (saved.collabLogoAlt !== undefined) D.collabLogoAlt = saved.collabLogoAlt;
+  if (saved.barDesc)     D.barDesc     = saved.barDesc;
+  if (saved.event)       D.event       = Object.assign({}, D.event, saved.event);
+  if (saved.legend)      D.legend      = Object.assign({}, D.legend, saved.legend);
+  if (saved.hidden)      D.hidden      = saved.hidden;
+  if (saved.categories)  D.categories  = saved.categories;
+  if (saved.items)       D.items       = saved.items.map(function(item) {
+    if (!item.type) {
+      if (item.cat === 'Food') item.type = 'food';
+      else if (item.nonAlcOf) item.type = 'analcolico';
+      else item.type = 'cocktail';
+    }
+    if (item.technique === undefined) item.technique = null;
+    return item;
+  });
+  if (saved.arasaacActive !== undefined) D.arasaacActive = saved.arasaacActive;
+  if (saved.about) {
+    D.about = Object.assign({}, D.about, saved.about);
+    if (saved.about.values) D.about.values = saved.about.values;
+    if (saved.about.collabs) D.about.collabs = saved.about.collabs;
+    // retro-compatibilità con versioni vecchie che avevano p1/p2/p3
+    if (!D.about.body && (saved.about.p1 || saved.about.p2 || saved.about.p3)) {
+      D.about.body = [saved.about.p1||'', saved.about.p2||'', saved.about.p3||''].filter(Boolean).join('\n\n');
+    }
+  }
+}
 
 // ── LOAD ─────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', function() {
+  // 1. localStorage (fallback locale)
   try {
     var keys = ['lms_menu','lms_v10','lms_v9','lms_v8'];
     for (var ki = 0; ki < keys.length; ki++) {
       var s = localStorage.getItem(keys[ki]);
-      if (s) {
-        var saved = JSON.parse(s);
-        D.logo = saved.logo || D.logo;
-        D.logoAlt = saved.logoAlt || D.logoAlt;
-        D.collabLogo = saved.collabLogo || D.collabLogo;
-        D.collabLogoAlt = saved.collabLogoAlt || D.collabLogoAlt;
-        D.barDesc = saved.barDesc || D.barDesc;
-        if (saved.event) D.event = Object.assign({}, D.event, saved.event);
-        if (saved.legend) D.legend = Object.assign({}, D.legend, saved.legend);
-        if (saved.hidden) D.hidden = saved.hidden;
-        if (saved.categories) D.categories = saved.categories;
-        if (saved.items) {
-          D.items = saved.items.map(function(item) {
-            if (!item.type) {
-              if (item.cat === 'Food') item.type = 'food';
-              else if (item.nonAlcOf) item.type = 'analcolico';
-              else item.type = 'cocktail';
-            }
-            return item;
-          });
-        }
-        D.arasaacActive = saved.arasaacActive || false;
-        if (saved.about) {
-          D.about = Object.assign({}, D.about, saved.about);
-          if (saved.about.values) D.about.values = saved.about.values;
-          if (saved.about.collabs) D.about.collabs = saved.about.collabs;
-          if (!D.about.body && (saved.about.p1 || saved.about.p2 || saved.about.p3)) {
-            D.about.body = [saved.about.p1||'', saved.about.p2||'', saved.about.p3||''].filter(Boolean).join('\n\n');
-          }
-        }
-        break;
-      }
+      if (s) { mergeData(JSON.parse(s)); break; }
     }
-  } catch(e) { console.warn('Load error:', e); }
-  var _dm = '/* LMS_DATA:';
-  var _de = ':LMS_DATA */';
-  var _src = document.currentScript ? document.currentScript.textContent : '';
-  if (!_src) {
-    var _scripts = document.getElementsByTagName('script');
-    for (var _si = 0; _si < _scripts.length; _si++) {
-      if (_scripts[_si].textContent.indexOf(_dm) !== -1) { _src = _scripts[_si].textContent; break; }
+  } catch(e) { console.warn('localStorage load error:', e); }
+
+  // 2. Dati embedded nel tag <script id="lms-data"> (hanno priorità su localStorage)
+  try {
+    var tag = document.getElementById('lms-data');
+    if (tag && tag.textContent.trim()) {
+      mergeData(JSON.parse(tag.textContent));
     }
-  }
-  if (_src && _src.indexOf(_dm) !== -1) {
-    try {
-      var _s = _src.indexOf(_dm) + _dm.length;
-      var _e = _src.indexOf(_de);
-      var _embedded = JSON.parse(_src.substring(_s, _e));
-      D.logo = _embedded.logo || D.logo;
-      D.logoAlt = _embedded.logoAlt || D.logoAlt;
-      D.collabLogo = _embedded.collabLogo || D.collabLogo;
-      D.collabLogoAlt = _embedded.collabLogoAlt || D.collabLogoAlt;
-      D.barDesc = _embedded.barDesc || D.barDesc;
-      if (_embedded.event) D.event = Object.assign({}, D.event, _embedded.event);
-      if (_embedded.legend) D.legend = Object.assign({}, D.legend, _embedded.legend);
-      if (_embedded.hidden) D.hidden = _embedded.hidden;
-      if (_embedded.categories) D.categories = _embedded.categories;
-      if (_embedded.items) D.items = _embedded.items;
-      D.arasaacActive = _embedded.arasaacActive || false;
-      if (_embedded.about) {
-        D.about = Object.assign({}, D.about, _embedded.about);
-        if (_embedded.about.values) D.about.values = _embedded.about.values;
-        if (_embedded.about.collabs) D.about.collabs = _embedded.about.collabs;
-      }
-    } catch(e) { console.warn('Embedded data error:', e); }
-  }
+  } catch(e) { console.warn('Embedded data error:', e); }
+
   renderAll();
+  if (checkAuth()) showAdminBtn();
+  if (window.location.search.indexOf('admin') !== -1) openPwPanel();
 });
 
 function renderAll() {
@@ -490,8 +485,6 @@ function renderAll() {
   applyCollabLogo();
   updateTypeBtnIcons();
   syncArasaacWrap();
-  if (checkAuth()) showAdminBtn();
-  if (window.location.search.indexOf('admin') !== -1) openPwPanel();
 }
 
 function esc(s) {
@@ -508,8 +501,10 @@ function showPage(page, btn) {
   document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
   document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('active'); b.removeAttribute('aria-current'); });
   document.getElementById('page-' + page).classList.add('active');
-  btn.classList.add('active'); btn.setAttribute('aria-current', 'page');
-  document.getElementById('admin-btn').style.display = (page === 'menu' && checkAuth()) ? '' : 'none';
+  btn.classList.add('active');
+  btn.setAttribute('aria-current', 'page');
+  var ab = document.getElementById('admin-btn');
+  ab.style.display = (page === 'menu' && checkAuth()) ? '' : 'none';
 }
 
 // ── LOGO ─────────────────────────────────────────────────────────────
@@ -563,10 +558,10 @@ function renderHeader() {
   var eb = document.getElementById('event-block');
   if (!eb) return;
   var h = '';
-  if (D.event.name) h += '<div class="ev-name">' + esc(D.event.name) + '</div>';
+  if (D.event.name)    h += '<div class="ev-name">'    + esc(D.event.name)    + '</div>';
   if (D.event.address) h += '<div class="ev-address">' + esc(D.event.address) + '</div>';
   if (D.event.date) {
-    try { h += '<div class="ev-date">' + new Date(D.event.date + 'T12:00:00').toLocaleDateString('it-IT', {day:'numeric',month:'long',year:'numeric'}) + '</div>'; } catch(e) {}
+    try { h += '<div class="ev-date">' + new Date(D.event.date + 'T12:00:00').toLocaleDateString('it-IT', {day:'numeric',month:'long',year:'numeric'}) + '</div>'; } catch(e2) {}
   }
   if (D.event.note) h += '<div class="ev-note">' + esc(D.event.note) + '</div>';
   eb.innerHTML = h;
@@ -579,57 +574,47 @@ function liveEvent() {
   renderHeader();
 }
 
-// ── LEGEND PUBLIC ─────────────────────────────────────────────────────
+// ── LEGENDA PUBBLICA ──────────────────────────────────────────────────
 function renderLegend() {
   var c = document.getElementById('legend-container');
   if (!c) return;
   var types = [
-    {key:'cocktail', lk:'labelCocktail', def:'Cocktail alcolico'},
-    {key:'analcolico', lk:'labelAnalcolico', def:'Drink analcolico'},
-    {key:'food', lk:'labelFood', def:'Tapas / food'}
+    {key:'cocktail',   lk:'labelCocktail',   def:'Cocktail alcolico'},
+    {key:'analcolico', lk:'labelAnalcolico',  def:'Drink analcolico'},
+    {key:'food',       lk:'labelFood',        def:'Tapas / food'}
   ];
   var h = '<section class="legend-section" aria-label="Legenda icone"><p class="legend-title">Legenda</p><div class="legend-items">';
   types.forEach(function(t) {
-    var lbl = D.legend[t.lk] || t.def;
-    h += '<div class="legend-item"><span class="legend-icon" aria-hidden="true">' + esc(D.legend[t.key]) + '</span><span class="legend-label">' + esc(lbl) + '</span></div>';
+    h += '<div class="legend-item"><span class="legend-icon" aria-hidden="true">' + esc(D.legend[t.key]) + '</span><span class="legend-label">' + esc(D.legend[t.lk] || t.def) + '</span></div>';
   });
-  h += '</div>';
-  var allergenLabel = D.legend.labelAllergen || 'Allergene';
-  h += '<div class="legend-allergen"><span class="a-tag">&#9888; ' + esc(allergenLabel) + '</span><span style="font-size:.82rem;color:var(--text)">' + esc(D.legend.allergenNote) + '</span></div>';
-  h += '</section>';
+  h += '</div><div class="legend-allergen"><span class="a-tag">&#9888; ' + esc(D.legend.labelAllergen || 'Allergene') + '</span><span style="font-size:.82rem;color:var(--text)">' + esc(D.legend.allergenNote) + '</span></div></section>';
   c.innerHTML = h;
 }
 
-// ── LEGEND EDIT (admin) ───────────────────────────────────────────────
+// ── LEGENDA EDIT (admin) ──────────────────────────────────────────────
 function renderLegendEdit() {
   var wrap = document.getElementById('legend-edit');
   if (!wrap) return;
   var rows = [
-    {key:'cocktail', lk:'labelCocktail', def:'Cocktail alcolico', isAllergen:false},
-    {key:'analcolico', lk:'labelAnalcolico', def:'Drink analcolico', isAllergen:false},
-    {key:'food', lk:'labelFood', def:'Tapas / food', isAllergen:false},
-    {key:'allergen', lk:'labelAllergen', def:'Allergene', isAllergen:true}
+    {key:'cocktail',   lk:'labelCocktail',  def:'Cocktail alcolico', isAllergen:false},
+    {key:'analcolico', lk:'labelAnalcolico', def:'Drink analcolico',  isAllergen:false},
+    {key:'food',       lk:'labelFood',       def:'Tapas / food',      isAllergen:false},
+    {key:'allergen',   lk:'labelAllergen',   def:'Allergene',         isAllergen:true}
   ];
   var html = '';
   rows.forEach(function(t) {
-    var iconVal = t.isAllergen ? '⚠' : esc(D.legend[t.key] || '');
-    var labelVal = esc(D.legend[t.lk] || t.def);
-    var allergenNote = esc(D.legend.allergenNote || '');
     var inputId = 'leg-ic-' + t.key;
+    var iconCell = t.isAllergen
+      ? '<span style="font-size:1.3rem;text-align:center;display:block;padding:.3rem .2rem;width:3rem">&#9888;</span>'
+      : '<div class="emoji-picker-wrap">'
+          + '<input class="fi leg-ic" id="' + inputId + '" type="text" value="' + esc(D.legend[t.key] || '') + '" data-key="' + t.key + '" style="text-align:center;font-size:1.3rem;padding:.3rem .2rem;width:3rem" aria-label="Icona ' + esc(t.def) + '">'
+          + '<button type="button" class="bs" data-target="' + inputId + '" onclick="openEmojiPicker(this.dataset.target,this)" style="padding:.25rem .4rem;font-size:.75rem">&#9660;</button>'
+          + '</div>';
     var cols = t.isAllergen ? 'auto 1fr 1fr' : 'auto 1fr';
-    var iconCell;
-    if (t.isAllergen) {
-      iconCell = '<span style="font-size:1.3rem;text-align:center;display:block;padding:.3rem .2rem;width:3rem">⚠</span>';
-    } else {
-      iconCell = '<div class="emoji-picker-wrap">'
-        + '<input class="fi leg-ic" id="' + inputId + '" type="text" value="' + iconVal + '" data-key="' + t.key + '" style="text-align:center;font-size:1.3rem;padding:.3rem .2rem;width:3rem" aria-label="Icona ' + esc(t.def) + '">'
-        + '<button type="button" class="bs" data-target="' + inputId + '" onclick="openEmojiPicker(this.dataset.target,this)" style="padding:.25rem .4rem;font-size:.75rem">▾</button>'
-        + '</div>';
-    }
     html += '<div style="display:grid;grid-template-columns:' + cols + ';gap:.4rem;align-items:center;margin-bottom:.4rem">'
       + iconCell
-      + '<input class="fi leg-lbl" type="text" value="' + labelVal + '" data-lk="' + t.lk + '" placeholder="' + esc(t.def) + '" aria-label="Etichetta ' + esc(t.def) + '" oninput="D.legend[this.dataset.lk]=this.value;renderLegend()">'
-      + (t.isAllergen ? '<input class="fi" type="text" value="' + allergenNote + '" placeholder="Testo nota allergeni" aria-label="Nota allergeni" oninput="D.legend.allergenNote=this.value;renderLegend();renderMenu()">' : '')
+      + '<input class="fi leg-lbl" type="text" value="' + esc(D.legend[t.lk] || t.def) + '" data-lk="' + t.lk + '" placeholder="' + esc(t.def) + '" aria-label="Etichetta ' + esc(t.def) + '" oninput="D.legend[this.dataset.lk]=this.value;renderLegend()">'
+      + (t.isAllergen ? '<input class="fi" type="text" value="' + esc(D.legend.allergenNote || '') + '" placeholder="Testo nota allergeni" aria-label="Nota allergeni" oninput="D.legend.allergenNote=this.value;renderLegend();renderMenu()">' : '')
       + '</div>';
   });
   wrap.innerHTML = html;
@@ -651,50 +636,56 @@ function renderLegendEdit() {
   });
 }
 
-function iconFor(type) { return D.legend[type] || '•'; }
+function iconFor(type) { return D.legend[type] || '\u2022'; }
 
-// ── MENU PUBLIC ───────────────────────────────────────────────────────
+// ── MENU PUBBLICO ─────────────────────────────────────────────────────
 function renderMenu() {
   var visible = D.categories.filter(function(c){ return !D.hidden.includes(c); });
   var showDrinks = visible.some(function(c){ return c !== 'Food'; });
   var showFood = visible.includes('Food');
+
+  // calcola coppie bidirezionali
   var paired = new Set();
   D.items.forEach(function(item) {
     if (paired.has(item.id) || !visible.includes(typeToCategory(item.type))) return;
     if (item.pairedWith) {
       var partner = D.items.find(function(i){ return i.id === item.pairedWith; });
       if (partner && partner.pairedWith === item.id && visible.includes(typeToCategory(partner.type))) {
-        paired.add(item.id); paired.add(partner.id);
+        paired.add(item.id);
+        paired.add(partner.id);
       }
     }
   });
+
   var drinkItems = D.items.filter(function(i){
     return (i.type === 'cocktail' || i.type === 'analcolico') && !i.nonAlcOf && !paired.has(i.id) && visible.includes(typeToCategory(i.type));
   });
-  var foodItems = D.items.filter(function(i){ return i.type === 'food' && !paired.has(i.id) && showFood; });
+  var foodItems = D.items.filter(function(i){
+    return i.type === 'food' && !paired.has(i.id) && showFood;
+  });
 
   function drinkWithAlts(item) {
     var h = itemHTML(item);
-    var alts = D.items.filter(function(i){ return i.nonAlcOf === item.id && visible.includes(typeToCategory(i.type)); });
-    alts.forEach(function(alt) {
-      h += '<div class="item-nonalc">'
-        + '<div class="nonalc-hint">variante al ' + esc(item.name) + '</div>'
-        + '<div class="nonalc-row">'
-        + '<span class="nonalc-icon" aria-hidden="true">' + esc(iconFor('analcolico')) + '</span>'
-        + '<span class="nonalc-name">' + esc(alt.name) + '</span>'
-        + (alt.price ? '<span class="nonalc-price">' + esc(alt.price) + '</span>' : '')
-        + '</div>'
-        + (alt.desc ? '<div class="nonalc-desc">' + esc(alt.desc) + '</div>' : '')
-        + (alt.technique ? '<div class="item-technique">' + esc(alt.technique) + '</div>' : '')
-        + renderAllergens(alt)
-        + (alt.arasaac && D.arasaacActive ? '<img src="' + esc(alt.arasaac) + '" alt="Simbolo CAA ' + esc(alt.name) + '" style="width:40px;height:40px;object-fit:contain;margin-top:.3rem" loading="lazy">' : '')
-        + '</div>';
-    });
+    D.items.filter(function(i){ return i.nonAlcOf === item.id && visible.includes(typeToCategory(i.type)); })
+      .forEach(function(alt) {
+        h += '<div class="item-nonalc">'
+          + '<div class="nonalc-hint">variante al ' + esc(item.name) + '</div>'
+          + '<div class="nonalc-row">'
+          + '<span class="nonalc-icon" aria-hidden="true">' + esc(iconFor('analcolico')) + '</span>'
+          + '<span class="nonalc-name">' + esc(alt.name) + '</span>'
+          + (alt.price ? '<span class="nonalc-price">' + esc(alt.price) + '</span>' : '')
+          + '</div>'
+          + (alt.desc      ? '<div class="nonalc-desc">'    + esc(alt.desc)      + '</div>' : '')
+          + (alt.technique ? '<div class="item-technique">' + esc(alt.technique) + '</div>' : '')
+          + renderAllergens(alt)
+          + (alt.arasaac && D.arasaacActive ? '<img src="' + esc(alt.arasaac) + '" alt="Simbolo CAA ' + esc(alt.name) + '" style="width:40px;height:40px;object-fit:contain;margin-top:.3rem" loading="lazy">' : '')
+          + '</div>';
+      });
     return h;
   }
 
-  var leftHTML = '';
   var pairedDrinks = D.items.filter(function(i){ return i.type === 'cocktail' && paired.has(i.id); });
+  var leftHTML = '';
   pairedDrinks.forEach(function(i){ leftHTML += drinkWithAlts(i); });
   drinkItems.forEach(function(i){ leftHTML += drinkWithAlts(i); });
   if (!leftHTML && showDrinks) leftHTML = '<p class="empty-col">Nessun drink questa sessione</p>';
@@ -710,11 +701,11 @@ function renderMenu() {
   }
 
   var noFood = !showFood;
-  var html = '<div class="menu-cols' + (noFood ? ' no-food' : '') + '">';
-  html += '<div class="col-drinks" aria-label="Cocktail"><h2 class="col-header"><span class="col-header-icon" aria-hidden="true">' + esc(iconFor('cocktail')) + '</span>Cocktail</h2>' + leftHTML + '</div>';
+  var html = '<div class="menu-cols' + (noFood ? ' no-food' : '') + '">'
+    + '<div class="col-drinks" aria-label="Cocktail"><h2 class="col-header"><span class="col-header-icon" aria-hidden="true">' + esc(iconFor('cocktail')) + '</span>Cocktail</h2>' + leftHTML + '</div>';
   if (!noFood) {
-    html += '<div class="col-divider" aria-hidden="true"></div>';
-    html += '<div class="col-food" aria-label="Food"><h2 class="col-header"><span class="col-header-icon" aria-hidden="true">' + esc(iconFor('food')) + '</span>Food</h2>' + rightHTML + '</div>';
+    html += '<div class="col-divider" aria-hidden="true"></div>'
+      + '<div class="col-food" aria-label="Food"><h2 class="col-header"><span class="col-header-icon" aria-hidden="true">' + esc(iconFor('food')) + '</span>Food</h2>' + rightHTML + '</div>';
   }
   html += '</div>';
   document.getElementById('menu-container').innerHTML = html;
@@ -727,8 +718,8 @@ function itemHTML(item) {
   var alLabel = al.length ? ' Allergeni: ' + al.join(', ') : '';
   return '<article class="menu-item" aria-label="' + esc(item.name + (item.price ? ', ' + item.price : '') + alLabel) + '">'
     + '<div class="item-name">' + esc(item.name) + '</div>'
-    + (item.price ? '<div class="item-price">' + esc(item.price) + '</div>' : '')
-    + (item.desc ? '<div class="item-desc">' + esc(item.desc) + '</div>' : '')
+    + (item.price     ? '<div class="item-price">'     + esc(item.price)     + '</div>' : '')
+    + (item.desc      ? '<div class="item-desc">'      + esc(item.desc)      + '</div>' : '')
     + (item.technique && item.type !== 'food' ? '<div class="item-technique">' + esc(item.technique) + '</div>' : '')
     + renderAllergens(item)
     + (item.arasaac && D.arasaacActive ? '<img src="' + esc(item.arasaac) + '" alt="Simbolo CAA ' + esc(item.name) + '" style="width:40px;height:40px;object-fit:contain;margin-top:.3rem" loading="lazy">' : '')
@@ -754,8 +745,7 @@ function renderAbout() {
   var c = document.getElementById('about-container');
   if (!c) return;
   var a = D.about;
-  var bodyText = a.body || '';
-  var paras = bodyText.split(/\n\n+/).filter(function(p){ return p.trim(); });
+  var paras = (a.body || '').split(/\n\n+/).filter(function(p){ return p.trim(); });
   var h = '<p class="tagline">' + esc(a.tagline) + '</p><hr class="about-divider" aria-hidden="true">';
   h += '<div class="about-body">' + paras.map(function(p){ return '<p>' + esc(p.trim()) + '</p>'; }).join('') + '</div>';
   h += '<div class="values-grid" role="list">';
@@ -773,17 +763,23 @@ function renderAbout() {
   c.innerHTML = h;
 }
 
-// ── PASSWORD ─────────────────────────────────────────────────────────
+// ── PASSWORD / AUTH ───────────────────────────────────────────────────
+// SHA-256 di "monos2025" — cambia questa stringa per cambiare password
 var PW_HASH = '5abcc1cbb6976c0d1a2cbe8f3b1429b9da2f99c76c419e32dc7e4c52c91aeaec';
 var PW_KEY  = 'lms_auth';
+var GH_TOKEN = null;
 
 function checkAuth() {
   return localStorage.getItem(PW_KEY) === PW_HASH;
 }
+function showAdminBtn() {
+  document.getElementById('admin-btn').style.display = '';
+}
 function openPwPanel() {
   if (checkAuth()) { showAdminBtn(); openAdmin(); return; }
-  document.getElementById('pw-panel').classList.add('open');
-  document.getElementById('pw-inp').value = '';
+  var panel = document.getElementById('pw-panel');
+  panel.classList.add('open');
+  document.getElementById('pw-inp').value   = '';
   document.getElementById('pw-token').value = '';
   document.getElementById('pw-err').style.display = 'none';
   setTimeout(function(){ document.getElementById('pw-inp').focus(); }, 50);
@@ -816,13 +812,12 @@ async function submitPw() {
     document.getElementById('pw-inp').select();
   }
 }
-function showAdminBtn() {
-  document.getElementById('admin-btn').style.display = '';
-}
 function logout() {
+  if (!confirm('Esci dalla modalità admin?')) return;
   localStorage.removeItem(PW_KEY);
   GH_TOKEN = null;
   document.getElementById('admin-btn').style.display = 'none';
+  closeAdmin();
 }
 
 // ── ADMIN ─────────────────────────────────────────────────────────────
@@ -838,26 +833,31 @@ function closeAdmin() {
   var btn = document.getElementById('admin-btn');
   if (btn.style.display !== 'none') btn.focus();
 }
-document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeAdmin(); });
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape') {
+    if (document.getElementById('admin-panel').classList.contains('open')) closeAdmin();
+    else if (document.getElementById('pw-panel').classList.contains('open')) closePwPanel();
+  }
+});
 
 function syncAdminFields() {
   syncLogoPreview();
   syncCollabLogoPreview();
-  var la = document.getElementById('logo-alt'); if (la) la.value = D.logoAlt || '';
-  var ca = document.getElementById('collab-logo-alt'); if (ca) ca.value = D.collabLogoAlt || '';
-  var bd = document.getElementById('bar-desc'); if (bd) bd.value = D.barDesc || '';
-  document.getElementById('ev-name').value    = D.event.name || '';
+  var la = document.getElementById('logo-alt');        if (la)  la.value  = D.logoAlt || '';
+  var ca = document.getElementById('collab-logo-alt'); if (ca)  ca.value  = D.collabLogoAlt || '';
+  var bd = document.getElementById('bar-desc');        if (bd)  bd.value  = D.barDesc || '';
+  document.getElementById('ev-name').value    = D.event.name    || '';
   document.getElementById('ev-address').value = D.event.address || '';
-  document.getElementById('ev-date').value    = D.event.date || '';
-  document.getElementById('ev-note').value    = D.event.note || '';
+  document.getElementById('ev-date').value    = D.event.date    || '';
+  document.getElementById('ev-note').value    = D.event.note    || '';
   renderLegendEdit();
-  var lf1 = document.getElementById('leg-footer1'); if (lf1) lf1.value = D.legend.footerNote || '';
+  var lf1 = document.getElementById('leg-footer1'); if (lf1) lf1.value = D.legend.footerNote  || '';
   var lf2 = document.getElementById('leg-footer2'); if (lf2) lf2.value = D.legend.footerNote2 || '';
-  var at = document.getElementById('tog-arasaac'); if (at) at.checked = D.arasaacActive || false;
+  var at = document.getElementById('tog-arasaac'); if (at) at.checked = !!D.arasaacActive;
   syncArasaacWrap();
-  var abt = document.getElementById('ab-tagline'); if (abt) abt.value = D.about.tagline || '';
-  var abb = document.getElementById('ab-body'); if (abb) abb.value = D.about.body || '';
-  var act = document.getElementById('ab-collab-title'); if (act) act.value = D.about.collabTitle || '';
+  var abt = document.getElementById('ab-tagline');      if (abt) abt.value = D.about.tagline      || '';
+  var abb = document.getElementById('ab-body');         if (abb) abb.value = D.about.body         || '';
+  var act = document.getElementById('ab-collab-title'); if (act) act.value = D.about.collabTitle  || '';
   renderValuesEdit();
   renderCollabsEdit();
 }
@@ -880,30 +880,36 @@ function toggleSection(cat, on) {
   renderMenu();
 }
 
-// ── ITEMS ─────────────────────────────────────────────────────────────
+// ── VOCI MENU ─────────────────────────────────────────────────────────
 function renderAdminItems() {
   document.getElementById('item-count').textContent = D.items.length;
   var list = document.getElementById('itm-list');
-  if (!D.items.length) { list.innerHTML = '<p style="font-size:.8rem;color:var(--muted);padding:.3rem">Nessuna voce ancora.</p>'; return; }
+  if (!D.items.length) {
+    list.innerHTML = '<p style="font-size:.8rem;color:var(--muted);padding:.3rem">Nessuna voce ancora.</p>';
+    return;
+  }
   list.innerHTML = D.items.map(function(item) {
-    var partner = item.pairedWith ? D.items.find(function(i){ return i.id === item.pairedWith; }) : null;
-    var naParent = item.nonAlcOf ? D.items.find(function(i){ return i.id === item.nonAlcOf; }) : null;
-    var technique = (item.technique && item.type !== 'food') ? ' · ' + esc(item.technique) : '';
-    var note = (partner ? ' 🔗 ' + esc(partner.name) : '') + (naParent ? ' 🍃 alt. di ' + esc(naParent.name) : '');
-    var typeIcon = {cocktail: esc(iconFor('cocktail')), analcolico: esc(iconFor('analcolico')), food: esc(iconFor('food'))}[item.type] || '';
+    var partner  = item.pairedWith ? D.items.find(function(i){ return i.id === item.pairedWith; }) : null;
+    var naParent = item.nonAlcOf   ? D.items.find(function(i){ return i.id === item.nonAlcOf;   }) : null;
+    var technique = (item.technique && item.type !== 'food') ? ' \u00b7 ' + esc(item.technique) : '';
+    var note = (partner  ? ' \uD83D\uDD17 ' + esc(partner.name)  : '')
+             + (naParent ? ' 🍃 alt. di '   + esc(naParent.name) : '');
+    var typeIcon = ({cocktail: esc(iconFor('cocktail')), analcolico: esc(iconFor('analcolico')), food: esc(iconFor('food'))})[item.type] || '';
     return '<div class="itm-row"><div class="itm-info"><strong>' + typeIcon + ' ' + esc(item.name) + '</strong>'
       + '<span>' + (item.price ? esc(item.price) : '') + technique + note + '</span></div>'
-      + '<div class="itm-acts"><button class="bs" onclick="editItem(' + item.id + ')" aria-label="Modifica">✏️</button>'
-      + '<button class="bs d" onclick="deleteItem(' + item.id + ')" aria-label="Elimina">🗑</button></div></div>';
+      + '<div class="itm-acts">'
+      + '<button class="bs" onclick="editItem(' + item.id + ')" aria-label="Modifica ' + esc(item.name) + '">✏️</button>'
+      + '<button class="bs d" onclick="deleteItem(' + item.id + ')" aria-label="Elimina ' + esc(item.name) + '">🗑</button>'
+      + '</div></div>';
   }).join('');
 }
 
 function selectType(type) {
   currentType = type;
   document.querySelectorAll('.type-btn').forEach(function(b){ b.classList.toggle('sel', b.dataset.type === type); });
-  document.getElementById('nonalc-wrap').style.display     = type === 'analcolico' ? 'block' : 'none';
-  document.getElementById('pair-wrap').style.display       = type === 'cocktail'   ? 'block' : 'none';
-  document.getElementById('technique-wrap').style.display  = type !== 'food'       ? 'block' : 'none';
+  document.getElementById('nonalc-wrap').style.display    = type === 'analcolico' ? 'block' : 'none';
+  document.getElementById('pair-wrap').style.display      = type === 'cocktail'   ? 'block' : 'none';
+  document.getElementById('technique-wrap').style.display = type !== 'food'       ? 'block' : 'none';
   if (type === 'analcolico') updateNonAlcSelect();
 }
 
@@ -936,29 +942,37 @@ function togglePair(cb) {
 function editItem(id) {
   var item = D.items.find(function(i){ return i.id === id; }); if (!item) return;
   editingId = id;
-  document.getElementById('form-title').textContent = '✏️ Modifica voce';
-  document.getElementById('f-name').value      = item.name;
-  document.getElementById('f-price').value     = item.price || '';
-  document.getElementById('f-desc').value      = item.desc || '';
-  document.getElementById('f-allergens').value = (item.allergens || []).join(', ');
-  document.getElementById('f-arasaac').value   = item.arasaac || '';
-  document.getElementById('f-technique').value = item.technique || '';
+  document.getElementById('form-title').textContent     = '✏️ Modifica voce';
+  document.getElementById('f-name').value               = item.name;
+  document.getElementById('f-price').value              = item.price     || '';
+  document.getElementById('f-desc').value               = item.desc      || '';
+  document.getElementById('f-allergens').value          = (item.allergens || []).join(', ');
+  document.getElementById('f-arasaac').value            = item.arasaac   || '';
+  document.getElementById('f-technique').value          = item.technique || '';
   selectType(item.type || 'cocktail');
-  if (item.type === 'analcolico') { updateNonAlcSelect(); document.getElementById('f-nonalc-for').value = item.nonAlcOf || ''; }
+  if (item.type === 'analcolico') {
+    updateNonAlcSelect();
+    document.getElementById('f-nonalc-for').value = item.nonAlcOf ? String(item.nonAlcOf) : '';
+  }
   if (item.type === 'cocktail') {
     var hasPair = !!item.pairedWith;
     document.getElementById('f-paired').checked = hasPair;
     document.getElementById('pair-select-wrap').style.display = hasPair ? 'block' : 'none';
-    if (hasPair) { updatePairSelect(); document.getElementById('f-pair-with').value = String(item.pairedWith || ''); }
+    if (hasPair) { updatePairSelect(); document.getElementById('f-pair-with').value = String(item.pairedWith); }
   }
   document.getElementById('f-name').focus();
+  // scorri fino al form
+  document.querySelector('.iform').scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
 function deleteItem(id) {
   var item = D.items.find(function(i){ return i.id === id; }); if (!item) return;
+  if (!confirm('Eliminare "' + item.name + '"?')) return;
   D.items.forEach(function(i){ if (i.pairedWith === id) i.pairedWith = null; if (i.nonAlcOf === id) i.nonAlcOf = null; });
   D.items = D.items.filter(function(i){ return i.id !== id; });
-  renderAdminItems(); renderMenu();
+  if (editingId === id) cancelEdit();
+  renderAdminItems();
+  renderMenu();
 }
 
 function submitItem() {
@@ -966,36 +980,54 @@ function submitItem() {
   if (!name) { document.getElementById('f-name').focus(); return; }
   var allergens = document.getElementById('f-allergens').value.split(',').map(function(a){ return a.trim(); }).filter(Boolean);
   var type = currentType;
-  var pairId = (type === 'cocktail' && document.getElementById('f-paired').checked)
-    ? (parseInt(document.getElementById('f-pair-with').value) || null) : null;
+  var pairId   = (type === 'cocktail' && document.getElementById('f-paired').checked)
+    ? (parseInt(document.getElementById('f-pair-with').value, 10) || null) : null;
   var nonAlcOf = (type === 'analcolico')
-    ? (parseInt(document.getElementById('f-nonalc-for').value) || null) : null;
+    ? (parseInt(document.getElementById('f-nonalc-for').value, 10) || null) : null;
   var newItem = {
-    id: editingId !== null ? editingId : Date.now(),
-    name: name, allergens: allergens, type: type,
-    price:    document.getElementById('f-price').value.trim(),
-    desc:     document.getElementById('f-desc').value.trim(),
-    arasaac:  document.getElementById('f-arasaac').value.trim() || null,
-    technique: document.getElementById('f-technique').value.trim() || null,
-    pairedWith: pairId, nonAlcOf: nonAlcOf
+    id:         editingId !== null ? editingId : Date.now(),
+    name:       name,
+    allergens:  allergens,
+    type:       type,
+    price:      document.getElementById('f-price').value.trim()     || null,
+    desc:       document.getElementById('f-desc').value.trim()      || null,
+    arasaac:    document.getElementById('f-arasaac').value.trim()   || null,
+    technique:  document.getElementById('f-technique').value.trim() || null,
+    pairedWith: pairId,
+    nonAlcOf:   nonAlcOf
   };
-  if (pairId) { var p = D.items.find(function(i){ return i.id === pairId; }); if (p) p.pairedWith = newItem.id; }
-  D.items.forEach(function(i){ if (i.pairedWith === newItem.id && i.id !== pairId) i.pairedWith = null; });
-  if (editingId !== null) { var idx = D.items.findIndex(function(i){ return i.id === editingId; }); if (idx > -1) D.items[idx] = newItem; }
-  else { D.items.push(newItem); }
-  cancelEdit(); renderAdminItems(); renderMenu();
+  // aggiorna bidirezionalità pairing
+  if (pairId) {
+    var partner = D.items.find(function(i){ return i.id === pairId; });
+    if (partner) partner.pairedWith = newItem.id;
+  }
+  // rimuovi vecchio pairing se cambiato
+  D.items.forEach(function(i){
+    if (i.id !== newItem.id && i.pairedWith === newItem.id && i.id !== pairId) i.pairedWith = null;
+  });
+  if (editingId !== null) {
+    var idx = D.items.findIndex(function(i){ return i.id === editingId; });
+    if (idx > -1) D.items[idx] = newItem;
+  } else {
+    D.items.push(newItem);
+  }
+  cancelEdit();
+  renderAdminItems();
+  renderMenu();
 }
 
 function cancelEdit() {
   editingId = null;
   document.getElementById('form-title').textContent = '+ Aggiungi voce';
-  ['f-name','f-price','f-desc','f-allergens','f-arasaac','f-technique'].forEach(function(id){ document.getElementById(id).value = ''; });
+  ['f-name','f-price','f-desc','f-allergens','f-arasaac','f-technique'].forEach(function(id){
+    document.getElementById(id).value = '';
+  });
   document.getElementById('f-paired').checked = false;
   document.getElementById('pair-select-wrap').style.display = 'none';
   selectType('cocktail');
 }
 
-// ── VALUES ────────────────────────────────────────────────────────────
+// ── VALORI ────────────────────────────────────────────────────────────
 function renderValuesEdit() {
   var ve = document.getElementById('values-edit'); if (!ve) return;
   ve.innerHTML = D.about.values.map(function(v, i) {
@@ -1003,19 +1035,19 @@ function renderValuesEdit() {
     return '<div style="display:grid;grid-template-columns:auto 1fr 2fr auto;gap:.3rem;align-items:center;margin-bottom:.3rem">'
       + '<div class="emoji-picker-wrap">'
       + '<input class="fi" id="' + inputId + '" type="text" value="' + esc(v.icon) + '" oninput="updateValue(' + i + ',\'icon\',this.value)" style="text-align:center;font-size:1.2rem;width:2.8rem" aria-label="Icona">'
-      + '<button type="button" class="bs" data-target="' + inputId + '" onclick="openEmojiPicker(this.dataset.target,this)" style="padding:.25rem .4rem;font-size:.75rem">▾</button>'
+      + '<button type="button" class="bs" data-target="' + inputId + '" onclick="openEmojiPicker(this.dataset.target,this)" style="padding:.25rem .4rem;font-size:.75rem">&#9660;</button>'
       + '</div>'
       + '<input class="fi" type="text" value="' + esc(v.title) + '" oninput="updateValue(' + i + ',\'title\',this.value)" aria-label="Titolo">'
-      + '<input class="fi" type="text" value="' + esc(v.text) + '" oninput="updateValue(' + i + ',\'text\',this.value)" aria-label="Testo">'
+      + '<input class="fi" type="text" value="' + esc(v.text)  + '" oninput="updateValue(' + i + ',\'text\',this.value)"  aria-label="Testo">'
       + '<button class="bs d" onclick="deleteValue(' + i + ')" aria-label="Rimuovi">🗑</button>'
       + '</div>';
   }).join('');
 }
 function updateValue(i, f, v) { D.about.values[i][f] = v; renderAbout(); }
-function deleteValue(i) { D.about.values.splice(i, 1); renderValuesEdit(); renderAbout(); }
-function addValue() { D.about.values.push({icon:'⭐',title:'Nuovo valore',text:'Descrizione'}); renderValuesEdit(); renderAbout(); }
+function deleteValue(i)        { D.about.values.splice(i, 1); renderValuesEdit(); renderAbout(); }
+function addValue()            { D.about.values.push({icon:'⭐',title:'Nuovo valore',text:'Descrizione'}); renderValuesEdit(); renderAbout(); }
 
-// ── COLLABS ───────────────────────────────────────────────────────────
+// ── COLLABORAZIONI ────────────────────────────────────────────────────
 function renderCollabsEdit() {
   var ce = document.getElementById('collabs-edit'); if (!ce) return;
   ce.innerHTML = D.about.collabs.map(function(c, i) {
@@ -1035,9 +1067,9 @@ function renderCollabsEdit() {
   }).join('');
 }
 function updateCollab(i, f, v) { D.about.collabs[i][f] = v; renderAbout(); }
-function deleteCollab(i) { D.about.collabs.splice(i, 1); renderCollabsEdit(); renderAbout(); }
-function addCollab() { D.about.collabs.push({text:'Nuova collaborazione',logo:null,logoAlt:''}); renderCollabsEdit(); renderAbout(); }
-function uploadCollabItemLogo(i) { var inp = document.getElementById('collab-item-inp-' + i); if (inp) inp.click(); }
+function deleteCollab(i)        { D.about.collabs.splice(i, 1); renderCollabsEdit(); renderAbout(); }
+function addCollab()            { D.about.collabs.push({text:'Nuova collaborazione',logo:null,logoAlt:''}); renderCollabsEdit(); renderAbout(); }
+function uploadCollabItemLogo(i){ var inp = document.getElementById('collab-item-inp-' + i); if (inp) inp.click(); }
 function handleCollabItemLogo(i, input) {
   var file = input.files[0]; if (!file) return;
   var r = new FileReader();
@@ -1045,62 +1077,89 @@ function handleCollabItemLogo(i, input) {
   r.readAsDataURL(file);
 }
 
-// ── SAVE ──────────────────────────────────────────────────────────────
+// ── SALVA ─────────────────────────────────────────────────────────────
 var GH_OWNER = 'losmonos-star';
 var GH_REPO  = 'menu';
 var GH_FILE  = 'index.html';
-var GH_TOKEN = null;
 
 async function saveMenu() {
   var msg = document.getElementById('save-msg');
-  localStorage.setItem('lms_menu', JSON.stringify(D));
+  msg.style.color = '';
+
+  // Salva sempre in localStorage come backup
+  try { localStorage.setItem('lms_menu', JSON.stringify(D)); } catch(e) {}
+
   if (!GH_TOKEN) {
-    msg.textContent = '✓ Salvato localmente (inserisci il token per sincronizzare su tutti i dispositivi)';
-    setTimeout(function(){ msg.textContent = ''; }, 5000);
+    msg.textContent = '✓ Salvato localmente (inserisci il token GitHub per sincronizzare su tutti i dispositivi)';
+    setTimeout(function(){ msg.textContent = ''; }, 6000);
     return;
   }
-  msg.textContent = '⏳ Salvataggio in corso...';
+
+  msg.textContent = '⏳ Salvataggio su GitHub...';
   try {
-    var shaRes = await fetch('https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + GH_FILE, {
-      headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json' }
-    });
-    if (!shaRes.ok) throw new Error('Errore lettura file: ' + shaRes.status);
+    // Leggi il file corrente per ottenere SHA e contenuto
+    var shaRes = await fetch(
+      'https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + GH_FILE,
+      { headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json' } }
+    );
+    if (!shaRes.ok) throw new Error('Lettura file fallita: HTTP ' + shaRes.status);
     var shaData = await shaRes.json();
     var currentSha = shaData.sha;
-    var currentContent = atob(shaData.content.replace(/
-/g,''));
-    var dataMarker = '/* LMS_DATA:';
-    var dataEnd = ':LMS_DATA */';
+
+    // Decodifica il contenuto base64 in modo sicuro per Unicode
+    var currentContent = decodeURIComponent(
+      Array.from(atob(shaData.content.replace(/\n/g,'')))
+        .map(function(c){ return '%' + c.charCodeAt(0).toString(16).padStart(2,'0'); })
+        .join('')
+    );
+
+    // Sostituisce o inserisce il tag <script id="lms-data">
     var dataJson = JSON.stringify(D);
+    var tagOpen  = '<script id="lms-data" type="application/json">';
+    var tagClose = '<\/script>';
     var newContent;
-    if (currentContent.indexOf(dataMarker) !== -1) {
-      var start = currentContent.indexOf(dataMarker);
-      var end = currentContent.indexOf(dataEnd) + dataEnd.length;
-      newContent = currentContent.substring(0, start) + dataMarker + dataJson + dataEnd + currentContent.substring(end);
+    if (currentContent.indexOf(tagOpen) !== -1) {
+      var s = currentContent.indexOf(tagOpen) + tagOpen.length;
+      var e = currentContent.indexOf(tagClose, s);
+      newContent = currentContent.substring(0, s) + dataJson + currentContent.substring(e);
     } else {
-      newContent = currentContent.replace('</script>', dataMarker + dataJson + dataEnd + '
-</script>');
+      // fallback: aggiunge il tag prima del </body>
+      newContent = currentContent.replace('<\/body>', tagOpen + dataJson + tagClose + '\n<\/body>');
     }
-    var encoded = btoa(unescape(encodeURIComponent(newContent)));
-    var putRes = await fetch('https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + GH_FILE, {
-      method: 'PUT',
-      headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: 'Aggiorna menu', content: encoded, sha: currentSha })
-    });
-    if (!putRes.ok) { var e = await putRes.json(); throw new Error(e.message || putRes.status); }
+
+    // Codifica in base64 in modo sicuro per Unicode
+    var encoded = btoa(
+      encodeURIComponent(newContent).replace(/%([0-9A-F]{2})/g, function(_, p){ return String.fromCharCode('0x'+p); })
+    );
+
+    var putRes = await fetch(
+      'https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + GH_FILE,
+      {
+        method: 'PUT',
+        headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: 'Aggiorna menu', content: encoded, sha: currentSha })
+      }
+    );
+    if (!putRes.ok) {
+      var errData = await putRes.json();
+      throw new Error(errData.message || 'HTTP ' + putRes.status);
+    }
     msg.textContent = '✓ Salvato su GitHub!';
     setTimeout(function(){ msg.textContent = ''; }, 4000);
   } catch(e) {
-    console.error(e);
+    console.error('GitHub save error:', e);
     msg.style.color = 'var(--danger)';
     msg.textContent = '✗ Errore: ' + e.message;
-    setTimeout(function(){ msg.textContent = ''; msg.style.color = ''; }, 6000);
+    setTimeout(function(){ msg.textContent = ''; msg.style.color = ''; }, 8000);
   }
 }
+
 function clearAll() {
   if (!confirm('Svuotare tutte le voci del menu? Questa operazione non può essere annullata.')) return;
   D.items = [];
-  renderAdminItems(); renderMenu();
+  if (editingId !== null) cancelEdit();
+  renderAdminItems();
+  renderMenu();
 }
 </script>
 </body>
