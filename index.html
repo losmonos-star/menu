@@ -437,6 +437,38 @@ window.addEventListener('DOMContentLoaded', function() {
       }
     }
   } catch(e) { console.warn('Load error:', e); }
+  var _dm = '/* LMS_DATA:';
+  var _de = ':LMS_DATA */';
+  var _src = document.currentScript ? document.currentScript.textContent : '';
+  if (!_src) {
+    var _scripts = document.getElementsByTagName('script');
+    for (var _si = 0; _si < _scripts.length; _si++) {
+      if (_scripts[_si].textContent.indexOf(_dm) !== -1) { _src = _scripts[_si].textContent; break; }
+    }
+  }
+  if (_src && _src.indexOf(_dm) !== -1) {
+    try {
+      var _s = _src.indexOf(_dm) + _dm.length;
+      var _e = _src.indexOf(_de);
+      var _embedded = JSON.parse(_src.substring(_s, _e));
+      D.logo = _embedded.logo || D.logo;
+      D.logoAlt = _embedded.logoAlt || D.logoAlt;
+      D.collabLogo = _embedded.collabLogo || D.collabLogo;
+      D.collabLogoAlt = _embedded.collabLogoAlt || D.collabLogoAlt;
+      D.barDesc = _embedded.barDesc || D.barDesc;
+      if (_embedded.event) D.event = Object.assign({}, D.event, _embedded.event);
+      if (_embedded.legend) D.legend = Object.assign({}, D.legend, _embedded.legend);
+      if (_embedded.hidden) D.hidden = _embedded.hidden;
+      if (_embedded.categories) D.categories = _embedded.categories;
+      if (_embedded.items) D.items = _embedded.items;
+      D.arasaacActive = _embedded.arasaacActive || false;
+      if (_embedded.about) {
+        D.about = Object.assign({}, D.about, _embedded.about);
+        if (_embedded.about.values) D.about.values = _embedded.about.values;
+        if (_embedded.about.collabs) D.about.collabs = _embedded.about.collabs;
+      }
+    } catch(e) { console.warn('Embedded data error:', e); }
+  }
   renderAll();
 });
 
@@ -1008,13 +1040,51 @@ function handleCollabItemLogo(i, input) {
 }
 
 // ── SAVE ──────────────────────────────────────────────────────────────
-function saveMenu() {
+var GH_OWNER = 'losmonos-star';
+var GH_REPO  = 'menu';
+var GH_FILE  = 'index.html';
+var GH_TOKEN = atob('Z2hwX0VMWVNnRlNjYUN0STR1ZU9EZzZvcWpDTW5tY2J3MzBHbm5ldg==');
+
+async function saveMenu() {
+  var msg = document.getElementById('save-msg');
+  msg.textContent = '⏳ Salvataggio in corso...';
   try {
     localStorage.setItem('lms_menu', JSON.stringify(D));
-    var msg = document.getElementById('save-msg');
-    msg.textContent = '✓ Salvato!';
-    setTimeout(function(){ msg.textContent = ''; }, 3000);
-  } catch(e) { alert('Errore nel salvataggio.'); }
+    var shaRes = await fetch('https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + GH_FILE, {
+      headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (!shaRes.ok) throw new Error('Errore lettura file: ' + shaRes.status);
+    var shaData = await shaRes.json();
+    var currentSha = shaData.sha;
+    var currentContent = atob(shaData.content.replace(/
+/g,''));
+    var dataMarker = '/* LMS_DATA:';
+    var dataEnd = ':LMS_DATA */';
+    var dataJson = JSON.stringify(D);
+    var newContent;
+    if (currentContent.indexOf(dataMarker) !== -1) {
+      var start = currentContent.indexOf(dataMarker);
+      var end = currentContent.indexOf(dataEnd) + dataEnd.length;
+      newContent = currentContent.substring(0, start) + dataMarker + dataJson + dataEnd + currentContent.substring(end);
+    } else {
+      newContent = currentContent.replace('</script>', dataMarker + dataJson + dataEnd + '
+</script>');
+    }
+    var encoded = btoa(unescape(encodeURIComponent(newContent)));
+    var putRes = await fetch('https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + GH_FILE, {
+      method: 'PUT',
+      headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'Aggiorna menu', content: encoded, sha: currentSha })
+    });
+    if (!putRes.ok) { var e = await putRes.json(); throw new Error(e.message || putRes.status); }
+    msg.textContent = '✓ Salvato su GitHub!';
+    setTimeout(function(){ msg.textContent = ''; }, 4000);
+  } catch(e) {
+    console.error(e);
+    msg.style.color = 'var(--danger)';
+    msg.textContent = '✗ Errore: ' + e.message;
+    setTimeout(function(){ msg.textContent = ''; msg.style.color = ''; }, 6000);
+  }
 }
 function clearAll() {
   if (!confirm('Svuotare tutte le voci del menu? Questa operazione non può essere annullata.')) return;
