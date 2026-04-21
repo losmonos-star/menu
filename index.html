@@ -600,13 +600,11 @@ function renderMenu() {
   var showDrinks = visible.some(function(c){ return c !== 'Food'; });
   var showFood = visible.includes('Food');
   var paired = new Set();
-  var pairSets = [];
   D.items.forEach(function(item) {
     if (paired.has(item.id) || !visible.includes(typeToCategory(item.type))) return;
     if (item.pairedWith) {
       var partner = D.items.find(function(i){ return i.id === item.pairedWith; });
       if (partner && partner.pairedWith === item.id && visible.includes(typeToCategory(partner.type))) {
-        pairSets.push([item, partner]);
         paired.add(item.id); paired.add(partner.id);
       }
     }
@@ -834,7 +832,7 @@ function editItem(id) {
     var hasPair = !!item.pairedWith;
     document.getElementById('f-paired').checked = hasPair;
     document.getElementById('pair-select-wrap').style.display = hasPair ? 'block' : 'none';
-    if (hasPair) { updatePairSelect(); document.getElementById('f-pair-with').value = item.pairedWith || ''; }
+    if (hasPair) { updatePairSelect(); document.getElementById('f-pair-with').value = String(item.pairedWith || ''); }
   }
   document.getElementById('f-name').focus();
 }
@@ -939,6 +937,7 @@ function saveMenu() {
   } catch(e) { alert('Errore nel salvataggio.'); }
 }
 function clearAll() {
+  if (!confirm('Svuotare tutte le voci del menu? Questa operazione non può essere annullata.')) return;
   D.items = [];
   renderAdminItems(); renderMenu();
 }
