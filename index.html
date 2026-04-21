@@ -219,6 +219,8 @@ hr.dv{border:none;border-top:1px solid var(--border);margin:1.25rem 0}
     <h2 id="pw-title">Accesso admin</h2>
     <p>Inserisci la password per modificare il menu.</p>
     <input id="pw-inp" type="password" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')submitPw()">
+    <p style="font-size:.75rem;color:var(--muted);margin:0">Token GitHub (per salvare su tutti i dispositivi)</p>
+    <input id="pw-token" type="password" placeholder="ghp_..." autocomplete="off" onkeydown="if(event.key==='Enter')submitPw()">
     <p id="pw-err">Password errata.</p>
     <div id="pw-actions">
       <button class="bg" onclick="closePwPanel()">Annulla</button>
@@ -782,6 +784,7 @@ function openPwPanel() {
   if (checkAuth()) { showAdminBtn(); openAdmin(); return; }
   document.getElementById('pw-panel').classList.add('open');
   document.getElementById('pw-inp').value = '';
+  document.getElementById('pw-token').value = '';
   document.getElementById('pw-err').style.display = 'none';
   setTimeout(function(){ document.getElementById('pw-inp').focus(); }, 50);
 }
@@ -802,6 +805,8 @@ async function submitPw() {
   }
   if (hash === PW_HASH) {
     localStorage.setItem(PW_KEY, PW_HASH);
+    var tokenVal = document.getElementById('pw-token').value.trim();
+    if (tokenVal) GH_TOKEN = tokenVal;
     closePwPanel();
     showAdminBtn();
     openAdmin();
@@ -816,6 +821,7 @@ function showAdminBtn() {
 }
 function logout() {
   localStorage.removeItem(PW_KEY);
+  GH_TOKEN = null;
   document.getElementById('admin-btn').style.display = 'none';
 }
 
@@ -1043,13 +1049,18 @@ function handleCollabItemLogo(i, input) {
 var GH_OWNER = 'losmonos-star';
 var GH_REPO  = 'menu';
 var GH_FILE  = 'index.html';
-var GH_TOKEN = atob('Z2hwX0VMWVNnRlNjYUN0STR1ZU9EZzZvcWpDTW5tY2J3MzBHbm5ldg==');
+var GH_TOKEN = null;
 
 async function saveMenu() {
   var msg = document.getElementById('save-msg');
+  localStorage.setItem('lms_menu', JSON.stringify(D));
+  if (!GH_TOKEN) {
+    msg.textContent = '✓ Salvato localmente (inserisci il token per sincronizzare su tutti i dispositivi)';
+    setTimeout(function(){ msg.textContent = ''; }, 5000);
+    return;
+  }
   msg.textContent = '⏳ Salvataggio in corso...';
   try {
-    localStorage.setItem('lms_menu', JSON.stringify(D));
     var shaRes = await fetch('https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + GH_FILE, {
       headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json' }
     });
