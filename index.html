@@ -82,6 +82,7 @@ header{text-align:center;padding:2rem 1rem 1.5rem;border-bottom:1px solid var(--
 .item-price{font-family:var(--fd);font-size:.95rem;font-weight:700;color:var(--accent);margin-top:.1rem}
 .item-desc{font-size:.78rem;color:var(--muted);margin-top:.12rem;line-height:1.4}
 .item-allergens{margin-top:.3rem;display:flex;flex-wrap:wrap;gap:.2rem}
+.item-technique{font-size:.72rem;color:var(--muted);margin-top:.18rem;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
 .a-tag{background:#1a1600;border:1px solid var(--danger);color:var(--danger);font-size:.65rem;padding:.07rem .38rem;border-radius:4px;letter-spacing:.04em;text-transform:uppercase}
 .item-nonalc{padding-left:1rem;border-left:2px solid var(--border);margin-left:.3rem;margin-top:.3rem}
 .nonalc-hint{font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.2rem;opacity:.8}
@@ -280,6 +281,7 @@ hr.dv{border:none;border-top:1px solid var(--border);margin:1.25rem 0}
   </div>
   <div class="fr"><div><label for="f-name">Nome *</label><input id="f-name" class="fi" type="text" placeholder="es. Negroni"></div><div><label for="f-price">Prezzo</label><input id="f-price" class="fi" type="text" placeholder="es. 8€"></div></div>
   <div class="fr full"><label for="f-desc">Descrizione ingredienti</label><input id="f-desc" class="fi" type="text" placeholder="es. Gin, Campari, vermouth rosso"></div>
+  <div class="fr full" id="technique-wrap"><label for="f-technique">Tecnica (opzionale)</label><input id="f-technique" class="fi" type="text" placeholder="es. Stirred · servito on the rocks"></div>
   <div class="fr full"><label for="f-allergens">Allergeni (separati da virgola)</label><input id="f-allergens" class="fi" type="text" placeholder="es. glutine, solfiti"></div>
   <div id="nonalc-wrap" style="display:none;margin-top:.4rem"><label for="f-nonalc-for" class="field-lbl">Alternativa analcolica di quale cocktail</label><select id="f-nonalc-for" class="fi"></select></div>
   <div id="pair-wrap" style="display:none;margin-top:.4rem">
@@ -371,9 +373,9 @@ let D = {
   hidden: [],
   categories: ["Cocktail","Food"],
   items: [
-    {id:1,name:"Negroni",desc:"Gin, Campari, vermouth rosso",price:"8€",type:"cocktail",allergens:["solfiti"],pairedWith:4,nonAlcOf:null,arasaac:null},
-    {id:2,name:"Spritz di stagione",desc:"Aperol, prosecco, acqua tonica",price:"7€",type:"cocktail",allergens:["solfiti","glutine"],pairedWith:null,nonAlcOf:null,arasaac:null},
-    {id:3,name:"Limonata al rosmarino",desc:"Limone, rosmarino, zucchero di canna",price:"5€",type:"analcolico",allergens:[],pairedWith:null,nonAlcOf:1,arasaac:null},
+    {id:1,name:"Negroni",desc:"Gin, Campari, vermouth rosso",price:"8€",type:"cocktail",allergens:["solfiti"],pairedWith:4,nonAlcOf:null,arasaac:null,technique:""},
+    {id:2,name:"Spritz di stagione",desc:"Aperol, prosecco, acqua tonica",price:"7€",type:"cocktail",allergens:["solfiti","glutine"],pairedWith:null,nonAlcOf:null,arasaac:null,technique:""},
+    {id:3,name:"Limonata al rosmarino",desc:"Limone, rosmarino, zucchero di canna",price:"5€",type:"analcolico",allergens:[],pairedWith:null,nonAlcOf:1,arasaac:null,technique:""},
     {id:4,name:"Tagliere misto",desc:"Salumi, formaggi, miele e noci",price:"12€",type:"food",allergens:["latte","frutta a guscio"],pairedWith:1,nonAlcOf:null,arasaac:null}
   ],
   arasaacActive: false,
@@ -650,6 +652,7 @@ function renderMenu() {
         + (alt.price ? '<span class="nonalc-price">' + esc(alt.price) + '</span>' : '')
         + '</div>'
         + (alt.desc ? '<div class="nonalc-desc">' + esc(alt.desc) + '</div>' : '')
+        + (alt.technique ? '<div class="item-technique">' + esc(alt.technique) + '</div>' : '')
         + renderAllergens(alt)
         + (alt.arasaac && D.arasaacActive ? '<img src="' + esc(alt.arasaac) + '" alt="Simbolo CAA ' + esc(alt.name) + '" style="width:40px;height:40px;object-fit:contain;margin-top:.3rem" loading="lazy">' : '')
         + '</div>';
@@ -693,6 +696,7 @@ function itemHTML(item) {
     + '<div class="item-name">' + esc(item.name) + '</div>'
     + (item.price ? '<div class="item-price">' + esc(item.price) + '</div>' : '')
     + (item.desc ? '<div class="item-desc">' + esc(item.desc) + '</div>' : '')
+    + (item.technique && item.type !== 'food' ? '<div class="item-technique">' + esc(item.technique) + '</div>' : '')
     + renderAllergens(item)
     + (item.arasaac && D.arasaacActive ? '<img src="' + esc(item.arasaac) + '" alt="Simbolo CAA ' + esc(item.name) + '" style="width:40px;height:40px;object-fit:contain;margin-top:.3rem" loading="lazy">' : '')
     + '</article>';
@@ -847,10 +851,11 @@ function renderAdminItems() {
   list.innerHTML = D.items.map(function(item) {
     var partner = item.pairedWith ? D.items.find(function(i){ return i.id === item.pairedWith; }) : null;
     var naParent = item.nonAlcOf ? D.items.find(function(i){ return i.id === item.nonAlcOf; }) : null;
+    var technique = (item.technique && item.type !== 'food') ? ' · ' + esc(item.technique) : '';
     var note = (partner ? ' 🔗 ' + esc(partner.name) : '') + (naParent ? ' 🍃 alt. di ' + esc(naParent.name) : '');
     var typeIcon = {cocktail: esc(iconFor('cocktail')), analcolico: esc(iconFor('analcolico')), food: esc(iconFor('food'))}[item.type] || '';
     return '<div class="itm-row"><div class="itm-info"><strong>' + typeIcon + ' ' + esc(item.name) + '</strong>'
-      + '<span>' + (item.price ? esc(item.price) : '') + note + '</span></div>'
+      + '<span>' + (item.price ? esc(item.price) : '') + technique + note + '</span></div>'
       + '<div class="itm-acts"><button class="bs" onclick="editItem(' + item.id + ')" aria-label="Modifica">✏️</button>'
       + '<button class="bs d" onclick="deleteItem(' + item.id + ')" aria-label="Elimina">🗑</button></div></div>';
   }).join('');
@@ -859,8 +864,9 @@ function renderAdminItems() {
 function selectType(type) {
   currentType = type;
   document.querySelectorAll('.type-btn').forEach(function(b){ b.classList.toggle('sel', b.dataset.type === type); });
-  document.getElementById('nonalc-wrap').style.display = type === 'analcolico' ? 'block' : 'none';
-  document.getElementById('pair-wrap').style.display   = type === 'cocktail'   ? 'block' : 'none';
+  document.getElementById('nonalc-wrap').style.display     = type === 'analcolico' ? 'block' : 'none';
+  document.getElementById('pair-wrap').style.display       = type === 'cocktail'   ? 'block' : 'none';
+  document.getElementById('technique-wrap').style.display  = type !== 'food'       ? 'block' : 'none';
   if (type === 'analcolico') updateNonAlcSelect();
 }
 
@@ -899,6 +905,7 @@ function editItem(id) {
   document.getElementById('f-desc').value      = item.desc || '';
   document.getElementById('f-allergens').value = (item.allergens || []).join(', ');
   document.getElementById('f-arasaac').value   = item.arasaac || '';
+  document.getElementById('f-technique').value = item.technique || '';
   selectType(item.type || 'cocktail');
   if (item.type === 'analcolico') { updateNonAlcSelect(); document.getElementById('f-nonalc-for').value = item.nonAlcOf || ''; }
   if (item.type === 'cocktail') {
@@ -932,6 +939,7 @@ function submitItem() {
     price:    document.getElementById('f-price').value.trim(),
     desc:     document.getElementById('f-desc').value.trim(),
     arasaac:  document.getElementById('f-arasaac').value.trim() || null,
+    technique: document.getElementById('f-technique').value.trim() || null,
     pairedWith: pairId, nonAlcOf: nonAlcOf
   };
   if (pairId) { var p = D.items.find(function(i){ return i.id === pairId; }); if (p) p.pairedWith = newItem.id; }
@@ -944,7 +952,7 @@ function submitItem() {
 function cancelEdit() {
   editingId = null;
   document.getElementById('form-title').textContent = '+ Aggiungi voce';
-  ['f-name','f-price','f-desc','f-allergens','f-arasaac'].forEach(function(id){ document.getElementById(id).value = ''; });
+  ['f-name','f-price','f-desc','f-allergens','f-arasaac','f-technique'].forEach(function(id){ document.getElementById(id).value = ''; });
   document.getElementById('f-paired').checked = false;
   document.getElementById('pair-select-wrap').style.display = 'none';
   selectType('cocktail');
