@@ -415,7 +415,7 @@ var currentType = "cocktail";
 window.addEventListener('DOMContentLoaded', function() {
   // Try to merge localStorage data on top of embedded data
   try {
-    var keys = ['lms_menu','lms_v10','lms_v9','lms_v8'];
+    var keys = ['lms_menu','lms_v10','lms_v9','lms_v8']; // @@LOCALSTORAGE_KEYS@@
     for (var ki = 0; ki < keys.length; ki++) {
       var s = localStorage.getItem(keys[ki]);
       if (s) {
@@ -477,7 +477,7 @@ function showPage(page, btn) {
   document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('active'); b.removeAttribute('aria-current'); });
   document.getElementById('page-' + page).classList.add('active');
   btn.classList.add('active'); btn.setAttribute('aria-current', 'page');
-  document.getElementById('admin-btn').style.display = (page === 'menu' && checkAuth() && isAdminUrl()) ? '' : 'none';
+  document.getElementById('admin-btn').style.display = (checkAuth() && isAdminUrl()) ? '' : 'none';
 }
 
 // ── LOGO ─────────────────────────────────────────────────────────────
@@ -960,6 +960,12 @@ function exportHTML() {
 
   var newBlock = startMarker + '\nvar D = ' + dataJSON + ';\n' + endMarker;
   var exported = src.slice(0, startIdx) + newBlock + src.slice(endIdx + endMarker.length);
+
+  // Neutralize localStorage load in exported file so old browser data never overrides the new embedded menu
+  exported = exported.replace(
+    "var keys = ['lms_menu','lms_v10','lms_v9','lms_v8']; // @@LOCALSTORAGE_KEYS@@",
+    "var keys = []; // exported — uses embedded data only"
+  );
 
   // Download
   var blob = new Blob([exported], {type: 'text/html;charset=utf-8'});
