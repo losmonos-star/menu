@@ -413,6 +413,8 @@ var currentType = "cocktail";
 
 // ── LOAD ─────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', function() {
+  // Rimuove il vecchio token auth da localStorage (versioni precedenti usavano localStorage)
+  try { localStorage.removeItem('lms_auth'); } catch(e) {}
   // Try to merge localStorage data on top of embedded data
   try {
     var keys = ['lms_menu','lms_v10','lms_v9','lms_v8']; // @@LOCALSTORAGE_KEYS@@
@@ -937,35 +939,40 @@ function handleCollabItemLogo(i, input) {
   r.readAsDataURL(file);
 }
 
-// ── EXPORT HTML ───────────────────────────────────────────────────────
+// ── EXPORT HTML ───────────────────────────────────────────────────
 function exportHTML() {
-  // Serialize D with JSON, then inject it into the source between the DATA markers
   var dataJSON = JSON.stringify(D);
   var src = document.documentElement.outerHTML;
 
-  // Replace everything between @@DATA_START@@ and @@DATA_END@@ with fresh serialized D
+  // 1. Inietta i dati aggiornati tra i marker
   var startMarker = '// @@DATA_START@@';
   var endMarker   = '// @@DATA_END@@';
   var startIdx = src.indexOf(startMarker);
   var endIdx   = src.indexOf(endMarker);
-
   if (startIdx === -1 || endIdx === -1) {
-    // Fallback: show error
     var msg = document.getElementById('save-msg');
     msg.style.color = 'var(--danger)';
     msg.textContent = '✗ Errore export: markers non trovati.';
     setTimeout(function(){ msg.textContent=''; msg.style.color=''; }, 4000);
     return;
   }
-
   var newBlock = startMarker + '\nvar D = ' + dataJSON + ';\n' + endMarker;
   var exported = src.slice(0, startIdx) + newBlock + src.slice(endIdx + endMarker.length);
 
-  // Neutralize localStorage load in exported file so old browser data never overrides the new embedded menu
+  // 2. Disabilita localStorage nel file esportato (usa solo dati embedded)
   exported = exported.replace(
     "var keys = ['lms_menu','lms_v10','lms_v9','lms_v8']; // @@LOCALSTORAGE_KEYS@@",
     "var keys = []; // exported — uses embedded data only"
   );
+
+  // 3. Rimuove bottone admin, pannello password e pannello admin
+  exported = exported.replace(/<button id="admin-btn"[\s\S]*?<\/button>/, '');
+  exported = exported.replace(/<div id="pw-panel"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/, '');
+  exported = exported.replace(/<div id="admin-panel"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/, '');
+
+  // 4. Blocca le funzioni admin con override vuoti
+  var adminOverride = '<scr'+'ipt>function openAdmin(){}function openPwPanel(){}function closeAdmin(){}function submitPw(){}function showAdminBtn(){}function logout(){}<\/scr'+'ipt>';
+  exported = exported.replace('<\/body>', adminOverride + '<\/body>');
 
   // Download
   var blob = new Blob([exported], {type: 'text/html;charset=utf-8'});
