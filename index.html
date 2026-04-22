@@ -477,7 +477,7 @@ function showPage(page, btn) {
   document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('active'); b.removeAttribute('aria-current'); });
   document.getElementById('page-' + page).classList.add('active');
   btn.classList.add('active'); btn.setAttribute('aria-current', 'page');
-  document.getElementById('admin-btn').style.display = (checkAuth() && isAdminUrl()) ? '' : 'none';
+  document.getElementById('admin-btn').style.display = (checkAuth() && isAdminUrl()) ? 'block' : 'none';
 }
 
 // ── LOGO ─────────────────────────────────────────────────────────────
@@ -732,7 +732,7 @@ async function submitPw() {
   }
 }
 function isAdminUrl() { return window.location.search.indexOf('admin') !== -1; }
-function showAdminBtn() { if (isAdminUrl()) document.getElementById('admin-btn').style.display = ''; }
+function showAdminBtn() { if (isAdminUrl()) document.getElementById('admin-btn').style.display = 'block'; }
 function logout() { localStorage.removeItem(PW_KEY); document.getElementById('admin-btn').style.display = 'none'; }
 
 // ── ADMIN ─────────────────────────────────────────────────────────────
